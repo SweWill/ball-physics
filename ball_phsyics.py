@@ -8,65 +8,71 @@ import tkinter
 gui = tkinter.Tk()
 
 gui.geometry("500x500")
+gui.resizable(0, 0)
 gui.title("Ball Physics")
 
 
-def ball_physics():
+def initalizeTurtle():
     # initialize the window
     window = turtle.Screen()
-
-    # initialize the ball
-    ball = turtle.Turtle()
-
-
     # set the height and width of the window
     height = 500
     width = 500
     window.setup(height=height, width=width)
     window.tracer(0)
 
-    # class Ball(turtle.Turtle):
-    # set the gravity, y velocity, x velocity, energy loss factor, friction, and speed of the simulation
-    gravity = entry.get()
-    yVelocity = input("yVelocity (0): ")
-    xVelocity = input("xVelocity (-1): ")
-    energyLossFactor = input("energyLossFactor (0.85): ")
-    friction = input("Friction (0.9): ")
-    speed = input("Speed (0.01): ")
-    airResistance = input("Air Resistance (0.9999): ")
+    # initialize the ball
+    ball = turtle.Turtle()
 
-    # if the user doesn't input anything, set the variables to their default values
-    if gravity == "":
-        gravity = -9.82
-    else:
-        gravity = float(gravity)
-    if yVelocity == "":
-        yVelocity = 0
-    else:
-        yVelocity = float(yVelocity)
-    if xVelocity == "":
-        xVelocity = -1
-    else:
-        xVelocity = float(xVelocity)
-    if energyLossFactor == "":
-        energyLossFactor = 0.85
-    else:
-        energyLossFactor = float(energyLossFactor)
-    if friction == "":
-        friction = 0.9
-    else:
-        friction = float(friction)
-    if speed == "":
-        speed = 0.01
-    else:
-        speed = float(speed)
-    if airResistance == "":
-        airResistance = 0.9999
-    else:
-        airResistance = float(airResistance)
+    ball.hideturtle()
+
+    ballPhysics(window, ball, height, width)
+
+
+def ballPhysics(window, ball, height, width):
+    
+    # set the gravity, y velocity, x velocity, energy loss factor, friction, and speed of the simulation
+    gravity = gravitySlider.get()
+    yVelocity = yVelocitySlider.get()
+    xVelocity = xVelocitySlider.get()
+    energyLossFactor = energyLossFactorSlider.get()
+    friction = frictionSlider.get()
+    speed = speedSlider.get()
+    airResistance = airResistanceSlider.get()
+
+    # # if the user doesn't input anything, set the variables to their default values
+    # if gravity == "":
+    #     gravity = -9.82
+    # else:
+    #     gravity = float(gravity)
+    # if yVelocity == "":
+    #     yVelocity = 0
+    # else:
+    #     yVelocity = float(yVelocity)
+    # if xVelocity == "":
+    #     xVelocity = -1
+    # else:
+    #     xVelocity = float(xVelocity)
+    # if energyLossFactor == "":
+    #     energyLossFactor = 0.85
+    # else:
+    #     energyLossFactor = float(energyLossFactor)
+    # if friction == "":
+    #     friction = 0.9
+    # else:
+    #     friction = float(friction)
+    # if speed == "":
+    #     speed = 0.01
+    # else:
+    #     speed = float(speed)
+    # if airResistance == "":
+    #     airResistance = 0.9999
+    # else:
+    #     airResistance = float(airResistance)
 
     # display the current gravity on the screen
     gravityDisplay = turtle.Turtle()
+    gravityDisplay.clear()
     gravityDisplay.hideturtle()
     gravityDisplay.penup()
     gravityDisplay.sety(height/2.2)
@@ -75,6 +81,7 @@ def ball_physics():
 
     # display the current energy loss factor on the screen
     energyLossFactorDisplay = turtle.Turtle()
+    energyLossFactorDisplay.clear()
     energyLossFactorDisplay.hideturtle()
     energyLossFactorDisplay.penup()
     energyLossFactorDisplay.sety(height/2.2 - 20)
@@ -83,6 +90,7 @@ def ball_physics():
 
     # display the current friction on the screen
     frictionDisplay = turtle.Turtle()
+    frictionDisplay.clear()
     frictionDisplay.hideturtle()
     frictionDisplay.penup()
     frictionDisplay.sety(height/2.2 - 40)
@@ -91,6 +99,7 @@ def ball_physics():
 
     # display the current air resistance on the screen
     airResistanceDisplay = turtle.Turtle()
+    airResistanceDisplay.clear()
     airResistanceDisplay.hideturtle()
     airResistanceDisplay.penup()
     airResistanceDisplay.sety(height/2.2 - 60)
@@ -99,6 +108,7 @@ def ball_physics():
 
     # display the current speed on the screen
     speedDisplay = turtle.Turtle()
+    speedDisplay.clear()
     speedDisplay.hideturtle()
     speedDisplay.penup()
     speedDisplay.sety(height/2.2 - 80)
@@ -112,9 +122,6 @@ def ball_physics():
 
     # main loop
     while True:
-
-        try:
-
             # show the current x and y velocity with 3 decimals on the screen with each update of the screen
             velocityDisplay = turtle.Turtle()
             velocityDisplay.hideturtle()
@@ -155,25 +162,72 @@ def ball_physics():
             # clear the velocity display so it can be updated with the new velocity
             velocityDisplay.clear()
 
-            # update the screen
-            window.update()
+            try:
+                # update the screen
+                window.update()
+            except:
+                initalizeTurtle()
+            
+            ball.clear()
+            ball.dot(10, "red")
 
-        except:
-            # if the user closes the window, the program will close
-            turtle.bye()
-            break
+    
+# gravity slider and label
+gravitySlider = Scale(gui, from_=20, to=-20, resolution=0.01)
+gravitySlider.set(-9.82)
+gravitySlider.place(x=60, y=10)
+
+gravitySliderLabel = Label(gui, text="Gravity", font=('Helvetica 13'))
+gravitySliderLabel.place(x=10, y=50)
+
+# xVelocity slider and label
+xVelocitySlider = Scale(gui, from_=-100, to=100, orient=HORIZONTAL)
+xVelocitySlider.place(x=205, y=30)
+
+xVelocityLabel = Label(gui, text="X-Velocity", font=('Helvetica 13'))
+xVelocityLabel.place(x=215, y=80)
+
+# yVelocity slider and label
+yVelocitySlider = Scale(gui, from_=-100, to=100, orient=VERTICAL)
+yVelocitySlider.place(x=360, y=10)
+
+yVelocityLabel = Label(gui, text="Y-Velocity", font=('Helvetica 13'))
+yVelocityLabel.place(x=410, y=50)
+
+# energy loss factor slider and label
+energyLossFactorSlider = Scale(gui, from_=0, to=1, resolution=0.01, orient=HORIZONTAL)
+energyLossFactorSlider.set(0.9)
+energyLossFactorSlider.place(x=170, y=270)
+
+energyLossFactorSliderLabel = Label(gui, text="Energy Loss Factor", font=('Helvetica 13'))
+energyLossFactorSliderLabel.place(x=10, y=290)
+
+# friction slider and label
+frictionSlider = Scale(gui, from_=0, to=1, resolution=0.01, orient=HORIZONTAL)
+frictionSlider.set(0.9)
+frictionSlider.place(x=170, y=330)
+
+frictionSliderLabel = Label(gui, text="Friction", font=('Helvetica 13'))
+frictionSliderLabel.place(x=10, y=350)
+
+# air resistance slider and label
+airResistanceSlider = Scale(gui, from_=0, to=1, resolution=0.01, orient=HORIZONTAL)
+airResistanceSlider.set(0.98)
+airResistanceSlider.place(x=170, y=390)
+
+airResistanceSliderLabel = Label(gui, text="Air Resistance", font=('Helvetica 13'))
+airResistanceSliderLabel.place(x=10, y=410)
+
+# speed slider and label
+speedSlider = Scale(gui, from_=0, to=0.2, resolution=0.01, orient=HORIZONTAL)
+speedSlider.set(0.01)
+speedSlider.place(x=170, y=450)
+
+speedSliderLabel = Label(gui, text="Speed", font=('Helvetica 13'))
+speedSliderLabel.place(x=10, y=470)
 
 
-# Create an Entry Widget
-entry = Entry(gui, width=42)
-entry.place(relx=.5, rely=.5, anchor=CENTER)
-
-# Inititalize a Label widget
-label = Label(gui, text="", font=('Helvetica 13'))
-label.pack()
-
-# Create a Button to get the input data
-ttk.Button(gui, text="Click to Show", command=ball_physics).place(
-    relx=.7, rely=.5, anchor=CENTER)
+ttk.Button(gui, text="Start simulation", command=initalizeTurtle).place(
+    x=400, y=450)
 
 gui.mainloop()
