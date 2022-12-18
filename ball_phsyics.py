@@ -31,11 +31,11 @@ while True:
         yVelocity = -yVelocity * energyLossFactor
         xVelocity = xVelocity * friction
         ball.sety(-height/2.19) # The ball gets stuck sometime in the floor. This eliminates the problem.
-    if ball.xcor() > width/2: # The ball gets stuck sometime in the wall. This eliminates the problem.
+    if ball.xcor() > width/2: 
         xVelocity = -xVelocity * friction
-        ball.setx(width/2)
-    if ball.xcor() < -width/2: # The ball gets stuck sometime in the wall. This eliminates the problem.
+        ball.setx(width/2) # The ball gets stuck sometime in the wall. This eliminates the problem.
+    if ball.xcor() < -width/2:
         xVelocity = -xVelocity*friction
-        ball.setx(-width/2)
+        ball.setx(-width/2) # The ball gets stuck sometime in the wall. This eliminates the problem.
 
     window.update()
