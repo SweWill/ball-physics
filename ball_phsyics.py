@@ -2,13 +2,14 @@ from turtle import Screen, Turtle
 import turtle
 import time
 
+window = turtle.Screen()
+
 ball = turtle.Turtle()
 
 height = 500
 width = 500
-screen = Screen()
-screen.setup(height=height, width=width)
-
+window.setup(height=height, width=width)
+window.tracer(0) # Results in smother animation but makes only half of the ball to render. The boost in performance compensates for the loss of render imo.
 
 gravity = -9.82
 velocity = 0
@@ -20,7 +21,8 @@ ball.color("red")
 
 while True:
     ball.sety(ball.ycor()+velocity)
-    velocity += gravity
+    velocity += gravity/100
     time.sleep(0.001)
     if ball.ycor() < -height/2:
         velocity = -velocity
+    window.update()
