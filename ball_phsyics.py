@@ -39,4 +39,3 @@ while True:
         ball.setx(-width/2) # The ball gets stuck sometime in the wall. This eliminates the problem.
 
     window.update()
-s
