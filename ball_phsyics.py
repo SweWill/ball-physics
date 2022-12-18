@@ -1,4 +1,3 @@
-from turtle import Screen, Turtle
 import turtle
 import time
 
@@ -9,20 +8,34 @@ ball = turtle.Turtle()
 height = 500
 width = 500
 window.setup(height=height, width=width)
-window.tracer(0) # Results in smother animation but makes only half of the ball to render. The boost in performance compensates for the loss of render imo.
+window.tracer(0)
 
 gravity = -9.82
-velocity = 0
-energyLossFactor = 0.9
+yVelocity = 0
+xVelocity = -1
+energyLossFactor = 0.85
+friction = 0.9
+speed = 0.01
 
 ball.penup()
 ball.shape('circle')
 ball.color("red")
 
 while True:
-    ball.sety(ball.ycor()+velocity)
-    velocity += gravity/100
-    time.sleep(0.001)
-    if ball.ycor() < -height/2:
-        velocity = -velocity
+    ball.sety(ball.ycor()+yVelocity)
+    ball.setx(ball.xcor()+xVelocity)
+    yVelocity += gravity/100
+
+    time.sleep(speed)
+    if ball.ycor() < -height/2.2:
+        yVelocity = -yVelocity * energyLossFactor
+        xVelocity = xVelocity * friction
+        ball.sety(-height/2.19) # The ball gets stuck sometime in the floor. This eliminates the problem.
+    if ball.xcor() > width/2: # The ball gets stuck sometime in the wall. This eliminates the problem.
+        xVelocity = -xVelocity * friction
+        ball.setx(width/2)
+    if ball.xcor() < -width/2: # The ball gets stuck sometime in the wall. This eliminates the problem.
+        xVelocity = -xVelocity*friction
+        ball.setx(-width/2)
+
     window.update()
