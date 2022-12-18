@@ -15,12 +15,12 @@ window.setup(height=height, width=width)
 window.tracer(0)
 
 # set the gravity, y velocity, x velocity, energy loss factor, friction, and speed of the simulation
-gravity = -9.82
-yVelocity = 0
-xVelocity = -1
-energyLossFactor = 0.85
-friction = 0.9
-speed = 0.01
+gravity = float(input("Gravity (-9.82): "))
+yVelocity = float(input("yVelocity (0): "))
+xVelocity = float(input("xVelocity (-1): "))
+energyLossFactor = float(input("energyLossFactor (0.85): "))
+friction = float(input("Friction (0.9): "))
+speed = float(input("Speed (0.01): "))
 
 # display the current gravity on the screen
 gravityDisplay = turtle.Turtle()
