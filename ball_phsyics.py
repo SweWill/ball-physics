@@ -14,13 +14,40 @@ width = 500
 window.setup(height=height, width=width)
 window.tracer(0)
 
+# class Ball(turtle.Turtle):
 # set the gravity, y velocity, x velocity, energy loss factor, friction, and speed of the simulation
-gravity = float(input("Gravity (-9.82): "))
-yVelocity = float(input("yVelocity (0): "))
-xVelocity = float(input("xVelocity (-1): "))
-energyLossFactor = float(input("energyLossFactor (0.85): "))
-friction = float(input("Friction (0.9): "))
-speed = float(input("Speed (0.01): "))
+gravity = input("Gravity (-9.82): ")
+yVelocity = input("yVelocity (0): ")
+xVelocity = input("xVelocity (-1): ")
+energyLossFactor = input("energyLossFactor (0.85): ")
+friction = input("Friction (0.9): ")
+speed = input("Speed (0.01): ")
+
+# if the user doesn't input anything, set the variables to their default values
+if gravity == "":
+    gravity = -9.82
+else:
+    gravity = float(gravity)
+if yVelocity == "":
+    yVelocity = 0
+else:
+    yVelocity = float(yVelocity)
+if xVelocity == "":
+    xVelocity = -1
+else:
+    xVelocity = float(xVelocity)
+if energyLossFactor == "":
+    energyLossFactor = 0.85
+else:
+    energyLossFactor = float(energyLossFactor)
+if friction == "":
+    friction = 0.9
+else:
+    friction = float(friction)
+if speed == "":
+    speed = 0.01
+else:
+    speed = float(speed)
 
 # display the current gravity on the screen
 gravityDisplay = turtle.Turtle()
@@ -78,6 +105,10 @@ while True:
         yVelocity = -yVelocity * energyLossFactor
         xVelocity = xVelocity * friction
         ball.sety(-height/2.19) # The ball gets stuck sometime in the floor. This eliminates the problem.
+    if ball.ycor() > height/2.2:
+        yVelocity = -yVelocity * energyLossFactor
+        xVelocity = xVelocity * friction
+        ball.sety(height/2.19) # The ball gets stuck sometime in the floor. This eliminates the problem.
     if ball.xcor() > width/2: 
         xVelocity = -xVelocity * friction
         ball.setx(width/2) # The ball gets stuck sometime in the wall. This eliminates the problem.
