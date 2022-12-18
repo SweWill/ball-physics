@@ -22,6 +22,7 @@ xVelocity = input("xVelocity (-1): ")
 energyLossFactor = input("energyLossFactor (0.85): ")
 friction = input("Friction (0.9): ")
 speed = input("Speed (0.01): ")
+airResistance = input("Air Resistance (0.9999): ")
 
 # if the user doesn't input anything, set the variables to their default values
 if gravity == "":
@@ -48,6 +49,10 @@ if speed == "":
     speed = 0.01
 else:
     speed = float(speed)
+if airResistance == "":
+    airResistance = 0.9999
+else:
+    airResistance = float(airResistance)
 
 # display the current gravity on the screen
 gravityDisplay = turtle.Turtle()
@@ -70,11 +75,18 @@ frictionDisplay.penup()
 frictionDisplay.sety(height/2.2 - 40)
 frictionDisplay.write("Friction: " + str(friction), font=("Arial", 16, "normal"))
 
+# display the current air resistance on the screen
+airResistanceDisplay = turtle.Turtle()
+airResistanceDisplay.hideturtle()
+airResistanceDisplay.penup()
+airResistanceDisplay.sety(height/2.2 - 60)
+airResistanceDisplay.write("Air Resistance: " + str(airResistance), font=("Arial", 16, "normal"))
+
 # display the current speed on the screen
 speedDisplay = turtle.Turtle()
 speedDisplay.hideturtle()
 speedDisplay.penup()
-speedDisplay.sety(height/2.2 - 60)
+speedDisplay.sety(height/2.2 - 80)
 speedDisplay.write("Speed of Sim: " + str(speed), font=("Arial", 16, "normal"))
 
 # make the ball
@@ -89,13 +101,14 @@ while True:
     velocityDisplay = turtle.Turtle()
     velocityDisplay.hideturtle()
     velocityDisplay.penup()
-    velocityDisplay.sety(height/2.2 - 80)
+    velocityDisplay.sety(height/2.2 - 100)
     velocityDisplay.write("Velocity: " + str(round(xVelocity,3)) + ", " + str(round(yVelocity,3)), font=("Arial", 16, "normal")) # round to 3 decimals to make it easier to read
 
     # move the ball
     ball.sety(ball.ycor()+yVelocity)
     ball.setx(ball.xcor()+xVelocity)
-    yVelocity += gravity/100
+    yVelocity += gravity/100 * airResistance 
+    xVelocity *= airResistance
 
     # speed up or slow down the simulation
     time.sleep(speed)
