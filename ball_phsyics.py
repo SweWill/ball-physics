@@ -30,7 +30,7 @@ def initalizeTurtle():
 
 
 def ballPhysics(window, ball, height, width):
-    
+
     # set the gravity, y velocity, x velocity, energy loss factor, friction, and speed of the simulation
     gravity = gravitySlider.get()
     yVelocity = yVelocitySlider.get()
@@ -39,6 +39,7 @@ def ballPhysics(window, ball, height, width):
     friction = frictionSlider.get()
     speed = speedSlider.get()
     airResistance = airResistanceSlider.get()
+    ballSize = ballSizeSlider.get()
 
     # # if the user doesn't input anything, set the variables to their default values
     # if gravity == "":
@@ -72,7 +73,6 @@ def ballPhysics(window, ball, height, width):
 
     # display the current gravity on the screen
     gravityDisplay = turtle.Turtle()
-    gravityDisplay.clear()
     gravityDisplay.hideturtle()
     gravityDisplay.penup()
     gravityDisplay.sety(height/2.2)
@@ -81,7 +81,6 @@ def ballPhysics(window, ball, height, width):
 
     # display the current energy loss factor on the screen
     energyLossFactorDisplay = turtle.Turtle()
-    energyLossFactorDisplay.clear()
     energyLossFactorDisplay.hideturtle()
     energyLossFactorDisplay.penup()
     energyLossFactorDisplay.sety(height/2.2 - 20)
@@ -90,7 +89,6 @@ def ballPhysics(window, ball, height, width):
 
     # display the current friction on the screen
     frictionDisplay = turtle.Turtle()
-    frictionDisplay.clear()
     frictionDisplay.hideturtle()
     frictionDisplay.penup()
     frictionDisplay.sety(height/2.2 - 40)
@@ -99,7 +97,6 @@ def ballPhysics(window, ball, height, width):
 
     # display the current air resistance on the screen
     airResistanceDisplay = turtle.Turtle()
-    airResistanceDisplay.clear()
     airResistanceDisplay.hideturtle()
     airResistanceDisplay.penup()
     airResistanceDisplay.sety(height/2.2 - 60)
@@ -108,7 +105,6 @@ def ballPhysics(window, ball, height, width):
 
     # display the current speed on the screen
     speedDisplay = turtle.Turtle()
-    speedDisplay.clear()
     speedDisplay.hideturtle()
     speedDisplay.penup()
     speedDisplay.sety(height/2.2 - 80)
@@ -122,56 +118,56 @@ def ballPhysics(window, ball, height, width):
 
     # main loop
     while True:
-            # show the current x and y velocity with 3 decimals on the screen with each update of the screen
-            velocityDisplay = turtle.Turtle()
-            velocityDisplay.hideturtle()
-            velocityDisplay.penup()
-            velocityDisplay.sety(height/2.2 - 100)
-            velocityDisplay.write("Velocity: " + str(round(xVelocity, 3)) + ", " + str(round(yVelocity, 3)),
-                                  font=("Arial", 16, "normal"))  # round to 3 decimals to make it easier to read
+        # show the current x and y velocity with 3 decimals on the screen with each update of the screen
+        velocityDisplay = turtle.Turtle()
+        velocityDisplay.hideturtle()
+        velocityDisplay.penup()
+        velocityDisplay.sety(height/2.2 - 100)
+        velocityDisplay.write("Velocity: " + str(round(xVelocity, 3)) + ", " + str(round(yVelocity, 3)),
+                              font=("Arial", 16, "normal"))  # round to 3 decimals to make it easier to read
 
-            # move the ball
-            ball.sety(ball.ycor()+yVelocity)
-            ball.setx(ball.xcor()+xVelocity)
-            yVelocity += gravity/100 * airResistance
-            xVelocity *= airResistance
+        # move the ball
+        ball.sety(ball.ycor()+yVelocity)
+        ball.setx(ball.xcor()+xVelocity)
+        yVelocity += gravity/100 * airResistance
+        xVelocity *= airResistance
 
-            # speed up or slow down the simulation
-            time.sleep(speed)
+        # speed up or slow down the simulation
+        time.sleep(speed)
 
-            # check for collisions
-            if ball.ycor() < -height/2.2:
-                yVelocity = -yVelocity * energyLossFactor * airResistance
-                xVelocity = xVelocity * friction * airResistance
-                # The ball gets stuck sometime in the floor. This eliminates the problem.
-                ball.sety(-height/2.19)
-            if ball.ycor() > height/2.2:
-                yVelocity = -yVelocity * energyLossFactor * airResistance
-                xVelocity = xVelocity * friction * airResistance
-                # The ball gets stuck sometime in the floor. This eliminates the problem.
-                ball.sety(height/2.19)
-            if ball.xcor() > width/2:
-                xVelocity = -xVelocity * friction * airResistance
-                # The ball gets stuck sometime in the wall. This eliminates the problem.
-                ball.setx(width/2)
-            if ball.xcor() < -width/2:
-                xVelocity = -xVelocity*friction * airResistance
-                # The ball gets stuck sometime in the wall. This eliminates the problem.
-                ball.setx(-width/2)
+        # check for collisions
+        if ball.ycor() < -height/2.2:
+            yVelocity = -yVelocity * energyLossFactor * airResistance
+            xVelocity = xVelocity * friction * airResistance
+            # The ball gets stuck sometime in the floor. This eliminates the problem.
+            ball.sety(-height/2.19)
+        if ball.ycor() > height/2.2:
+            yVelocity = -yVelocity * energyLossFactor * airResistance
+            xVelocity = xVelocity * friction * airResistance
+            # The ball gets stuck sometime in the floor. This eliminates the problem.
+            ball.sety(height/2.19)
+        if ball.xcor() > width/2:
+            xVelocity = -xVelocity * friction * airResistance
+            # The ball gets stuck sometime in the wall. This eliminates the problem.
+            ball.setx(width/2)
+        if ball.xcor() < -width/2:
+            xVelocity = -xVelocity*friction * airResistance
+            # The ball gets stuck sometime in the wall. This eliminates the problem.
+            ball.setx(-width/2)
 
-            # clear the velocity display so it can be updated with the new velocity
-            velocityDisplay.clear()
+        # clear the velocity display so it can be updated with the new velocity
+        velocityDisplay.clear()
 
-            try:
-                # update the screen
-                window.update()
-            except:
-                initalizeTurtle()
-            
-            ball.clear()
-            ball.dot(10, "red")
+        try:
+            # update the screen
+            window.update()
+        except:
+            initalizeTurtle()
 
-    
+        ball.clear()
+        ball.dot(ballSize, "red")
+
+
 # gravity slider and label
 gravitySlider = Scale(gui, from_=20, to=-20, resolution=0.01)
 gravitySlider.set(-9.82)
@@ -188,18 +184,28 @@ xVelocityLabel = Label(gui, text="X-Velocity", font=('Helvetica 13'))
 xVelocityLabel.place(x=215, y=80)
 
 # yVelocity slider and label
-yVelocitySlider = Scale(gui, from_=-100, to=100, orient=VERTICAL)
+yVelocitySlider = Scale(gui, from_=100, to=-100, orient=VERTICAL)
 yVelocitySlider.place(x=360, y=10)
 
 yVelocityLabel = Label(gui, text="Y-Velocity", font=('Helvetica 13'))
 yVelocityLabel.place(x=410, y=50)
 
+# ball size slider and label
+ballSizeSlider = Scale(gui, from_=1, to=100, orient=HORIZONTAL)
+ballSizeSlider.set(10)
+ballSizeSlider.place(x=170, y=210)
+
+ballSizeSliderLabel = Label(gui, text="Ball Size", font=('Helvetica 13'))
+ballSizeSliderLabel.place(x=10, y=230)
+
 # energy loss factor slider and label
-energyLossFactorSlider = Scale(gui, from_=0, to=1, resolution=0.01, orient=HORIZONTAL)
+energyLossFactorSlider = Scale(
+    gui, from_=0, to=1, resolution=0.01, orient=HORIZONTAL)
 energyLossFactorSlider.set(0.9)
 energyLossFactorSlider.place(x=170, y=270)
 
-energyLossFactorSliderLabel = Label(gui, text="Energy Loss Factor", font=('Helvetica 13'))
+energyLossFactorSliderLabel = Label(
+    gui, text="Energy Loss Factor", font=('Helvetica 13'))
 energyLossFactorSliderLabel.place(x=10, y=290)
 
 # friction slider and label
@@ -211,11 +217,13 @@ frictionSliderLabel = Label(gui, text="Friction", font=('Helvetica 13'))
 frictionSliderLabel.place(x=10, y=350)
 
 # air resistance slider and label
-airResistanceSlider = Scale(gui, from_=0, to=1, resolution=0.01, orient=HORIZONTAL)
+airResistanceSlider = Scale(
+    gui, from_=0.9, to=1, resolution=0.0001, orient=HORIZONTAL)
 airResistanceSlider.set(0.98)
 airResistanceSlider.place(x=170, y=390)
 
-airResistanceSliderLabel = Label(gui, text="Air Resistance", font=('Helvetica 13'))
+airResistanceSliderLabel = Label(
+    gui, text="Air Resistance", font=('Helvetica 13'))
 airResistanceSliderLabel.place(x=10, y=410)
 
 # speed slider and label
