@@ -20,6 +20,7 @@ def initalizeTurtle():
     width = 500
     window.setup(height=height, width=width)
     window.tracer(0)
+    window.cv._rootwindow.resizable(False, False)
 
     # initialize the ball
     ball = turtle.Turtle()
@@ -40,36 +41,6 @@ def ballPhysics(window, ball, height, width):
     speed = speedSlider.get()
     airResistance = airResistanceSlider.get()
     ballSize = ballSizeSlider.get()
-
-    # # if the user doesn't input anything, set the variables to their default values
-    # if gravity == "":
-    #     gravity = -9.82
-    # else:
-    #     gravity = float(gravity)
-    # if yVelocity == "":
-    #     yVelocity = 0
-    # else:
-    #     yVelocity = float(yVelocity)
-    # if xVelocity == "":
-    #     xVelocity = -1
-    # else:
-    #     xVelocity = float(xVelocity)
-    # if energyLossFactor == "":
-    #     energyLossFactor = 0.85
-    # else:
-    #     energyLossFactor = float(energyLossFactor)
-    # if friction == "":
-    #     friction = 0.9
-    # else:
-    #     friction = float(friction)
-    # if speed == "":
-    #     speed = 0.01
-    # else:
-    #     speed = float(speed)
-    # if airResistance == "":
-    #     airResistance = 0.9999
-    # else:
-    #     airResistance = float(airResistance)
 
     # display the current gravity on the screen
     gravityDisplay = turtle.Turtle()
@@ -116,6 +87,9 @@ def ballPhysics(window, ball, height, width):
     ball.shape('circle')
     ball.color("red")
 
+    runs = 0
+
+
     # main loop
     while True:
         # show the current x and y velocity with 3 decimals on the screen with each update of the screen
@@ -130,33 +104,37 @@ def ballPhysics(window, ball, height, width):
         ball.sety(ball.ycor()+yVelocity)
         ball.setx(ball.xcor()+xVelocity)
         yVelocity += gravity/100 * airResistance
-        xVelocity *= airResistance
+
+        if runs % 4 == 0:
+            xVelocity *= airResistance
 
         # speed up or slow down the simulation
         time.sleep(speed)
 
         # check for collisions
         if ball.ycor() < -height/2.2:
-            yVelocity = -yVelocity * energyLossFactor * airResistance
-            xVelocity = xVelocity * friction * airResistance
+            yVelocity = -yVelocity * energyLossFactor
+            xVelocity = xVelocity * friction
             # The ball gets stuck sometime in the floor. This eliminates the problem.
             ball.sety(-height/2.19)
         if ball.ycor() > height/2.2:
-            yVelocity = -yVelocity * energyLossFactor * airResistance
-            xVelocity = xVelocity * friction * airResistance
+            yVelocity = -yVelocity * energyLossFactor
+            xVelocity = xVelocity * friction
             # The ball gets stuck sometime in the floor. This eliminates the problem.
             ball.sety(height/2.19)
         if ball.xcor() > width/2:
-            xVelocity = -xVelocity * friction * airResistance
+            xVelocity = -xVelocity * friction
             # The ball gets stuck sometime in the wall. This eliminates the problem.
             ball.setx(width/2)
         if ball.xcor() < -width/2:
-            xVelocity = -xVelocity*friction * airResistance
+            xVelocity = -xVelocity * friction
             # The ball gets stuck sometime in the wall. This eliminates the problem.
             ball.setx(-width/2)
 
         # clear the velocity display so it can be updated with the new velocity
         velocityDisplay.clear()
+
+        runs += 1
 
         try:
             # update the screen
@@ -233,6 +211,7 @@ speedSlider.place(x=170, y=450)
 
 speedSliderLabel = Label(gui, text="Speed", font=('Helvetica 13'))
 speedSliderLabel.place(x=10, y=470)
+
 
 
 ttk.Button(gui, text="Start simulation", command=initalizeTurtle).place(
