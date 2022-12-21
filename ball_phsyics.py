@@ -89,7 +89,6 @@ def ballPhysics(window, ball, height, width):
 
     runs = 0
 
-
     # main loop
     while True:
         # show the current x and y velocity with 3 decimals on the screen with each update of the screen
@@ -105,7 +104,7 @@ def ballPhysics(window, ball, height, width):
         ball.setx(ball.xcor()+xVelocity)
         yVelocity += gravity/100 * airResistance
 
-        if runs % 4 == 0:
+        if runs % 6 == 0:
             xVelocity *= airResistance
 
         # speed up or slow down the simulation
@@ -211,8 +210,6 @@ speedSlider.place(x=170, y=450)
 
 speedSliderLabel = Label(gui, text="Speed", font=('Helvetica 13'))
 speedSliderLabel.place(x=10, y=470)
-
-
 
 ttk.Button(gui, text="Start simulation", command=initalizeTurtle).place(
     x=400, y=450)
