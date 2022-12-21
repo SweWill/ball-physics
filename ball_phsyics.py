@@ -7,18 +7,18 @@ import tkinter
 
 gui = tkinter.Tk()
 
-gui.geometry("500x500")
 gui.resizable(0, 0)
 gui.title("Ball Physics")
+gui.geometry("500x500+250+250")
 
 
 def initalizeTurtle():
     # initialize the window
-    window = turtle.Screen()
+    window = turtle.Screen()    
     # set the height and width of the window
     height = 500
     width = 500
-    window.setup(height=height, width=width)
+    window.setup(height=height, width=width, startx=750, starty=250)
     window.tracer(0)
     window.cv._rootwindow.resizable(False, False)
 
